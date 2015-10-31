@@ -1,0 +1,13 @@
+<?php
+
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) )
+    exit();
+
+function uninstall_%%plugin_name_u%%() {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . "%%crud_plural%%";
+    $wpdb->query("DROP TABLE IF EXISTS $table_name");
+}
+
+uninstall_%%plugin_name_u%%();
