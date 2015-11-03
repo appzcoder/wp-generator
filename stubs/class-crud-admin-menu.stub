@@ -52,6 +52,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 		);
 
 		add_action( "load-$hook", array( $this, 'screen_option' ) );
+		add_action( "load-$hook", array( $this, 'form_handler' ) );
 	}
 
 	/**
@@ -70,12 +71,10 @@ class %%crud_singular_cap%%_Admin_Menu {
                 break;
 
             case 'edit':
-            	$this->%%crud_singular%%_obj->process_form_submit();
                 $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-edit.php';
                 break;
 
             case 'new':
-            	$this->%%crud_singular%%_obj->process_form_submit();
                 $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-new.php';
                 break;
 
@@ -107,4 +106,23 @@ class %%crud_singular_cap%%_Admin_Menu {
 		include dirname( __FILE__ ) . '/class-%%crud_plural%%-list.php';
 		$this->%%crud_singular%%_obj = new %%crud_plural_cap%%_List();
 	}
+
+	/**
+	 * Handle form submit data & delete record.
+	 *
+	 * @return mixed
+	 */
+	public function form_handler() {
+		if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'new' || $_GET['action'] == 'edit' ) ) {
+			$this->%%crud_singular%%_obj->process_form_submit();
+		}
+
+		if ( ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' )
+			|| ( isset( $_POST['action'] ) && $_POST['action'] == 'bulk-delete' )
+			|| ( isset( $_POST['action2'] ) && $_POST['action2'] == 'bulk-delete' )
+		) {
+			/** Process bulk action */
+			$this->%%crud_singular%%_obj->process_bulk_action();
+		}
+	}	
 }
