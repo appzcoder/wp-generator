@@ -208,9 +208,6 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
 	public function prepare_items() {
 		$this->_column_headers = $this->get_column_info();
 
-		/** Process bulk action */
-		$this->process_bulk_action();
-
 		$per_page     = $this->get_items_per_page( '%%crud_plural%%_per_page', 5 );
 		$current_page = $this->get_pagenum();
 		$total_items  = self::record_count();
