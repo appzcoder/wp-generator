@@ -285,19 +285,6 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
 
         %%form_submit_fields%%
 
-        // some basic validation
-        %%form_validation%%
-
-        // bail out if error found
-        if ( $errors ) {
-            $first_error = reset( $errors );
-            $query = array( 'error' => $first_error );
-            $redirect_to = add_query_arg( $query, $page_url );
-            // Redirect
-            wp_redirect( $redirect_to );
-            exit;
-        }
-
         $fields = array(
             %%form_fields%%
         );
@@ -337,19 +324,6 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
 
         $args       = wp_parse_args( $args, $defaults );
         $table_name = $wpdb->prefix . '%%crud_plural%%';
-
-        // some basic validation
-        %%form_validation%%
-
-        // bail out if error found
-        if ( $errors ) {
-            $first_error = reset( $errors );
-            $query = array( 'error' => $first_error );
-            $redirect_to = add_query_arg( $query, $page_url );
-            // Redirect
-            wp_redirect( $redirect_to );
-            exit;
-        }
 
         // remove row id to determine if new or update
         $row_id = (int) $args['id'];

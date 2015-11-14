@@ -213,11 +213,11 @@ function process($post_data, $download = true, $delete = true)
             $sortable_columns .= "'$field' => array( '$field', true ),\n";
 
             if ($field_type == 'textarea') {
-                $form_submit_fields .= "\$$field       = isset( \$post_data['$field'] ) ? wp_kses_post( \$post_data['$field'] ) : '';";
+                $form_submit_fields .= "\$$field       = isset( \$_POST['$field'] ) ? wp_kses_post( \$_POST['$field'] ) : '';\n";
                 // Database schema generate
                 $database_schema .= "$field text NOT NULL,\n";
             } else {
-                $form_submit_fields .= "\$$field       = isset( \$post_data['$field'] ) ? sanitize_text_field( \$post_data['$field'] ) : '';";
+                $form_submit_fields .= "\$$field       = isset( \$_POST['$field'] ) ? sanitize_text_field( \$_POST['$field'] ) : '';\n";
                 // Database schema generate
                 $database_schema .= "$field varchar(255) DEFAULT '' NOT NULL,\n";
             }
