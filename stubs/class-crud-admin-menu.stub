@@ -18,7 +18,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 	/**
 	 * Constructor.
 	 *
-	 * @param mixed
+	 * @param void
 	 */
 	public function __construct() {
 		add_filter( 'set-screen-option', array( __CLASS__, 'set_screen' ), 10, 3 );
@@ -39,7 +39,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 	/**
 	 * Registering plugin menu.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function plugin_menu() {
 		$hook = add_menu_page(
@@ -58,7 +58,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 	/**
 	 * Plugin settings page.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function plugin_settings_page() {
         $action 	= isset( $_GET['action'] ) ? $_GET['action'] : 'list';
@@ -91,13 +91,13 @@ class %%crud_singular_cap%%_Admin_Menu {
 	/**
 	 * Screen options.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function screen_option() {
 		$option = 'per_page';
 		$args   = array(
 			'label'   => '%%crud_plural_cap%%',
-			'default' => 5,
+			'default' => 20,
 			'option'  => '%%crud_plural%%_per_page'
 		);
 
@@ -110,7 +110,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 	/**
 	 * Handle form submit data & delete record.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function form_handler() {
 		if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'new' || $_GET['action'] == 'edit' ) ) {
@@ -124,5 +124,5 @@ class %%crud_singular_cap%%_Admin_Menu {
 			/** Process bulk action */
 			$this->%%crud_singular%%_obj->process_bulk_action();
 		}
-	}	
+	}
 }

@@ -7,36 +7,13 @@
 
         <table class="form-table">
             <tbody>
-                <tr class="row-name">
-                    <th scope="row">
-                        <label for="name"><?php _e( 'Name', '%%textdomain%%' ); ?></label>
-                    </th>
-                    <td>
-                        <input type="text" name="name" id="name" class="regular-text" value="<?php echo esc_attr( $item->name ); ?>" required="required" />
-                    </td>
-                </tr>
-                <tr class="row-address">
-                    <th scope="row">
-                        <label for="address"><?php _e( 'Address', '%%textdomain%%' ); ?></label>
-                    </th>
-                    <td>
-                        <textarea name="address" id="address" rows="5" cols="30"><?php echo esc_textarea( $item->address ); ?></textarea>
-                    </td>
-                </tr>
-                <tr class="row-city">
-                    <th scope="row">
-                        <label for="city"><?php _e( 'City', '%%textdomain%%' ); ?></label>
-                    </th>
-                    <td>
-                        <input type="text" name="city" id="city" class="regular-text" value="<?php echo esc_attr( $item->city ); ?>" />
-                    </td>
-                </tr>
-             </tbody>
+                %%edit_view_form%%
+            </tbody>
         </table>
 
         <input type="hidden" name="field_id" value="<?php echo $item->id; ?>">
 
-        <?php wp_nonce_field( '%%prefix%%_new_%%crud_singular%%' ); ?>
+        <?php wp_nonce_field( '%%prefix%%new_%%crud_singular%%' ); ?>
         <?php submit_button( __( 'Update %%crud_singular_cap%%', '%%textdomain%%' ), 'primary', 'submit_%%crud_singular%%' ); ?>
 
     </form>

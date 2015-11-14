@@ -1,0 +1,106 @@
+<?php
+// Color codes
+// "\033[31m" foreground-color
+// "\033[41m" background-color
+// Set up shell colors
+$fg_black = "\033[0;30m";
+$fg_dark_gray = "\033[1;30m";
+$fg_blue = "\033[0;34m";
+$fg_light_blue = "\033[1;34m";
+$fg_green = "\033[0;32m";
+$fg_light_green = "\033[1;32m";
+$fg_cyan = "\033[0;36m";
+$fg_light_cyan = "\033[1;36m";
+$fg_red = "\033[0;31m";
+$fg_light_red = "\033[1;31m";
+$fg_purple = "\033[0;35m";
+$fg_light_purple = "\033[1;35m";
+$fg_brown = "\033[0;33m";
+$fg_yellow = "\033[1;33m";
+$fg_light_gray = "\033[0;37m";
+$fg_white = "\033[1;37m";
+
+$bg_black = "\033[40m";
+$bg_red = "\033[41m";
+$bg_green = "\033[42m";
+$bg_yellow = "\033[43m";
+$bg_blue = "\033[44m";
+$bg_magenta = "\033[45m";
+$bg_cyan = "\033[46m";
+$bg_light_gray = "\033[47m";
+$norlmal_color = "\033[0m";
+
+$inputs_array = arguments($argv);
+
+function arguments($argv)
+{
+    $_ARG = array();
+    foreach ($argv as $arg) {
+        if (ereg('--([^=]+)=(.*)', $arg, $reg)) {
+            $_ARG[$reg[1]] = $reg[2];
+        } elseif (ereg('-([a-zA-Z0-9])', $arg, $reg)) {
+            $_ARG[$reg[1]] = 'true';
+        }
+
+    }
+    return $_ARG;
+}
+
+if (!isset($inputs_array['type'])) {
+    echo $bg_red . "Crud Type is required. $norlmal_color\n";
+    exit;
+}
+
+$type = $inputs_array['type'];
+
+if (!isset($inputs_array['crud-name'])) {
+    echo $bg_red . "Crud name is required. $norlmal_color\n";
+    exit;
+}
+
+$post_data['crud_singular'] = $crud_name = $inputs_array['crud-name'];
+$post_data['textdomain'] = isset($inputs_array['textdomain']) ? $inputs_array['textdomain'] : 'appzcoder';
+$post_data['prefix'] = $inputs_array['prefix'];
+
+if ($type == 'plugin') {
+    if (!isset($inputs_array['plugin-name'])) {
+        echo $bg_red . "Plugin name is required. $norlmal_color\n";
+        exit;
+    }
+
+    $post_data['plugin_name'] = $inputs_array['plugin-name'];
+    $post_data['plugin_url'] = isset($inputs_array['plugin-url']) ? $inputs_array['plugin-url'] : 'http://www.appzcoder.com';
+    $post_data['plugin_description'] = isset($inputs_array['plugin-desc']) ? $inputs_array['plugin-desc'] : 'A sample plugin.';
+    $post_data['plugin_version'] = isset($inputs_array['plugin-ver']) ? $inputs_array['plugin-ver'] : '0.1';
+    $post_data['plugin_author'] = isset($inputs_array['plugin-author']) ? $inputs_array['plugin-author'] : 'Sohel Amin';
+    $post_data['plugin_author_url'] = isset($inputs_array['plugin-author-url']) ? $inputs_array['plugin-author-url'] : 'http://www.sohelamin.com';
+}
+
+$post_data['type_of_crud_generator'] = $type;
+
+if (!isset($inputs_array['fields'])) {
+    echo $bg_red . "Fields are required. $norlmal_color\n";
+    exit;
+}
+
+$fields = explode(',', $inputs_array['fields']);
+
+$x = 0;
+foreach ($fields as $field) {
+    $fieldArray = explode(':', $field);
+    $post_data['fields'][$x] = trim($fieldArray[0]);
+    $post_data['fields_type'][$x] = trim($fieldArray[1]);
+    if (isset($fieldArray[2]) && $fieldArray[2] == 'req') {
+        $post_data['fields_required'][$x] = 'on';
+    }
+    $x++;
+}
+
+include 'process.php';
+$is_generated = process($post_data, false, false);
+
+if ($is_generated) {
+    echo $bg_green . "Crud plugin/module successfully generated. $norlmal_color\n";
+} else {
+    echo $bg_red . "Something went wrong!. $norlmal_color\n";
+}

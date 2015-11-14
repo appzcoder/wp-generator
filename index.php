@@ -9,8 +9,14 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/flatly/bootstrap.min.css" rel="stylesheet">
 	<style>
 		body {
-			padding-top: 70px;
+			padding-top: 100px;
 		}
+	    .entry:not(:first-of-type) {
+	        margin-top: 10px;
+	    }
+	    .glyphicon {
+	        font-size: 12px;
+	    }
 	</style>
 </head>
 <body>
@@ -64,7 +70,7 @@
 				<div class="form-group">
 					<label for="plugin_version" class="col-md-4 control-label">Plugin Version:</label>
 					<div class="col-md-4">
-						<input type="text" name="plugin_version" class="form-control" id="plugin_version" placeholder="1.0" />
+						<input type="text" name="plugin_version" class="form-control" id="plugin_version" placeholder="0.1" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -96,12 +102,37 @@
 			<div class="form-group">
 				<label for="prefix" class="col-md-4 control-label">Prefix:</label>
 				<div class="col-md-4">
-					<input type="text" name="prefix" class="form-control" id="prefix" placeholder="ac" required="true" />
+					<input type="text" name="prefix" class="form-control" id="prefix" placeholder="ac_" required="true" />
 				</div>
 			</div>
+			<hr/>
+            <div class="form-group table-fields">
+				<h4 class="text-center">Table/Form Fields:</h4><br/>
+                <div class="entry col-md-9 col-md-offset-3 form-inline">
+                    <input class="form-control" name="fields[]" type="text" placeholder="field_name" />
+					<select name="fields_type[]" class="form-control">
+						<option value="text">Text</option>
+						<option value="textarea">Textarea</option>
+						<option value="number">Number</option>
+						<option value="email">Email</option>
+						<option value="select">Select</option>
+						<option value="checkbox">Checkbox</option>
+						<option value="radio">Radio</option>
+					</select>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="fields_required[]"> Required
+                        </label>
+                    </div>
+                    <button class="btn btn-success btn-add inline" type="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
+            <br>
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-md-4">
-					<button type="submit" class="btn btn-default" name="generate">Generate Crud Module</button>
+					<button type="submit" class="btn btn-primary" name="generate">Generate Crud Module</button>
 				</div>
 			</div>
 		</form>
@@ -134,6 +165,26 @@
 				$("button[name='generate']").text("Generate Crud Module");
 			}
 		});
+
+        $(document).on('click', '.btn-add', function(e) {
+            e.preventDefault();
+
+            var tableFields = $('.table-fields'),
+                currentEntry = $(this).parents('.entry:first'),
+                newEntry = $(currentEntry.clone()).appendTo(tableFields);
+
+            newEntry.find('input').val('');
+            tableFields.find('.entry:not(:last) .btn-add')
+                .removeClass('btn-add').addClass('btn-remove')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('<span class="glyphicon glyphicon-minus"></span>');
+        }).on('click', '.btn-remove', function(e) {
+            $(this).parents('.entry:first').remove();
+
+            e.preventDefault();
+            return false;
+        });
+
 	});
 	</script>
 </body>

@@ -12,7 +12,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     /**
      * Constructor.
      *
-     * @param mixed
+     * @param void
      */
     public function __construct() {
         parent::__construct( array(
@@ -27,7 +27,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
      *
      * @param int $id
      *
-     * @return mixed
+     * @return void
      */
     public static function get_%%crud_singular%%( $id=0 ) {
         global $wpdb;
@@ -41,9 +41,9 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
      * @param int $per_page
      * @param int $page_number
      *
-     * @return mixed
+     * @return void
      */
-    public static function get_%%crud_plural%%( $per_page = 5, $page_number = 1 ) {
+    public static function get_%%crud_plural%%( $per_page = 20, $page_number = 1 ) {
         global $wpdb;
 
         $sql = "SELECT * FROM {$wpdb->prefix}%%crud_plural%%";
@@ -100,7 +100,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     /**
      * Text displayed when no %%crud_singular%% data is available.
      *
-     * @return mixed
+     * @return void
      */
     public function no_items() {
         _e( 'No %%crud_plural%% avaliable.', '%%textdomain%%' );
@@ -112,12 +112,11 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
      * @param array $item
      * @param string $column_name
      *
-     * @return mixed
+     * @return void
      */
     public function column_default( $item, $column_name ) {
         switch ( $column_name ) {
-            case 'address':
-            case 'city':
+            %%column_default%%
                 return $item[ $column_name ];
             default:
                 return print_r( $item, true );
@@ -165,9 +164,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     function get_columns() {
         $columns = [
             'cb'      => '<input type="checkbox" />',
-            'name'    => __( 'Name', '%%textdomain%%' ),
-            'address' => __( 'Address', '%%textdomain%%' ),
-            'city'    => __( 'City', '%%textdomain%%' )
+            %%columns%%
         ];
 
         return $columns;
@@ -180,8 +177,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
      */
     public function get_sortable_columns() {
         $sortable_columns = array(
-            'name' => array( 'name', true ),
-            'city' => array( 'city', false )
+            %%sortable_columns%%
         );
 
         return $sortable_columns;
@@ -203,7 +199,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     /**
      * Handles data query and filter, sorting, and pagination.
      *
-     * @return mixed
+     * @return void
      */
     public function prepare_items() {
         $this->_column_headers = $this->get_column_info();
@@ -223,7 +219,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     /**
      * Handles bulk action and delete.
      *
-     * @return mixed
+     * @return void
      */
     public function process_bulk_action() {
         $page_url = menu_page_url( '%%plugin_page%%', false );
@@ -268,7 +264,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     /**
      * Handles form data when submitted.
      *
-     * @return mixed
+     * @return void
      */
     public function process_form_submit() {
         if ( ! isset( $_POST['submit_%%crud_singular%%'] ) ) {
@@ -287,14 +283,10 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
         $page_url   = menu_page_url( '%%plugin_page%%', false );
         $field_id   = isset( $_POST['field_id'] ) ? absint( $_POST['field_id'] ) : 0;
 
-        $name       = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
-        $address    = isset( $_POST['address'] ) ? wp_kses_post( $_POST['address'] ) : '';
-        $city       = isset( $_POST['city'] ) ? sanitize_text_field( $_POST['city'] ) : '';
+        %%form_submit_fields%%
 
         // some basic validation
-        if ( ! $name ) {
-            $errors[] = __( 'Error: Name is required', '%%textdomain%%' );
-        }
+        %%form_validation%%
 
         // bail out if error found
         if ( $errors ) {
@@ -307,9 +299,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
         }
 
         $fields = array(
-            'name'      => $name,
-            'address'   => $address,
-            'city'      => $city,
+            %%form_fields%%
         );
 
         // New or edit?
@@ -342,17 +332,23 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
 
         $defaults = array(
             'id'        => null,
-            'name'      => '',
-            'address'   => '',
-            'city'      => '',
+            %%form_single_default%%
         );
 
         $args       = wp_parse_args( $args, $defaults );
         $table_name = $wpdb->prefix . '%%crud_plural%%';
 
         // some basic validation
-        if ( empty( $args['name'] ) ) {
-            return new WP_Error( 'no-name', __( 'No Name provided.', '%%textdomain%%' ) );
+        %%form_validation%%
+
+        // bail out if error found
+        if ( $errors ) {
+            $first_error = reset( $errors );
+            $query = array( 'error' => $first_error );
+            $redirect_to = add_query_arg( $query, $page_url );
+            // Redirect
+            wp_redirect( $redirect_to );
+            exit;
         }
 
         // remove row id to determine if new or update
