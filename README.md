@@ -22,6 +22,8 @@ For generating crud module:
 php generator --type=module --crud-name=customer --textdomain=appzcoder --prefix=ac_ --fields="name:text:req, email:email:req, address:textarea, city:text"
 ```
 
+Note: You can easily generate crud plugin or instead you can also generate crud module to re-use in existing or another plugin. Generated things will be found in your "wp-generator" directory as "<crud-name>".zip file.
+
 ##Author
 
 [Sohel Amin](http://www.sohelamin.com)
