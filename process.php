@@ -257,17 +257,6 @@ function process($post_data, $download = true, $delete = true)
         $data['textdomain'] = $post_data['textdomain'];
         $data['prefix'] = $post_data['prefix'];
 
-        // Deleting existing plugin or module files
-        if (file_exists($data['plugin_name_dash'] . '.zip')) {
-            unlink($data['plugin_name_dash'] . '.zip');
-        }
-        $dir = dirname(__FILE__) . '/plugins/';
-        $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-        $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($ri as $file) {
-            $file->isDir() ? rmdir($file) : unlink($file);
-        }
-
         // Getting contents from stubs file
         $plugin_main_file = file_get_contents(dirname(__FILE__) . '/stubs/plugin-name.stub');
         $plugin_uninstall_file = file_get_contents(dirname(__FILE__) . '/stubs/uninstall.stub');
@@ -364,17 +353,6 @@ function process($post_data, $download = true, $delete = true)
         $data['textdomain'] = $post_data['textdomain'];
         $data['prefix'] = $post_data['prefix'];
 
-        // Deleting existing plugin or module files
-        if (file_exists($data['plugin_name_dash'] . '.zip')) {
-            unlink($data['plugin_name_dash'] . '.zip');
-        }
-        $dir = dirname(__FILE__) . '/plugins/';
-        $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-        $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($ri as $file) {
-            $file->isDir() ? rmdir($file) : unlink($file);
-        }
-
         // Getting contents from stubs file
         $crud_admin_menu_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-admin-menu.stub');
         $crud_wp_list_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-list.stub');
@@ -433,6 +411,20 @@ function process($post_data, $download = true, $delete = true)
 
         zip_dir($crud_dir, $data['plugin_name_dash'] . '.zip', $download);
 
+    }
+
+    // Deleting existing plugin or module files
+    if (file_exists($data['plugin_name_dash'] . '.zip')) {
+        unlink($data['plugin_name_dash'] . '.zip');
+    }
+
+    $dir = dirname(__FILE__) . '/plugins/';
+
+    $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
+    $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($ri as $file) {
+        chmod($file, 777);
+        $file->isDir() ? rmdir($file) : unlink($file);
     }
 
     return true;

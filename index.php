@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WP Generator</title>
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/flatly/bootstrap.min.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/flatly/bootstrap.min.css" rel="stylesheet">
 	<style>
 		body {
 			padding-top: 100px;
@@ -109,7 +109,7 @@
             <div class="form-group table-fields">
 				<h4 class="text-center">Table/Form Fields:</h4><br/>
                 <div class="entry col-md-9 col-md-offset-3 form-inline">
-                    <input class="form-control" name="fields[]" type="text" placeholder="field_name" />
+                    <input class="form-control" name="fields[]" type="text" placeholder="field_name" required="true"/>
 					<select name="fields_type[]" class="form-control">
 						<option value="text">Text</option>
 						<option value="textarea">Textarea</option>
