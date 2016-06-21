@@ -1,7 +1,7 @@
 <div class="wrap">
     <h1><?php _e( 'Edit %%crud_singular_cap%%', '%%textdomain%%' ); ?></h1>
 
-    <?php $item = $this->%%crud_singular%%_obj->get_%%crud_singular%%( $id ); ?>
+    <?php $item = %%prefix%%get_%%crud_singular%%( $id ); ?>
 
     <form action="" method="post">
 

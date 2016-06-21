@@ -1,0 +1,114 @@
+<?php
+/**
+ * Retrieve %%crud_singular%% data from the database.
+ *
+ * @param int $id
+ *
+ * @return void
+ */
+function %%prefix%%get_%%crud_singular%%( $id = 0 ) {
+    global $wpdb;
+
+    return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}%%crud_plural%% WHERE id = %d", $id ) );
+}
+
+/**
+ * Retrieve %%crud_plural%% data from the database.
+ *
+ * @param int $per_page
+ * @param int $page_number
+ *
+ * @return void
+ */
+function %%prefix%%get_%%crud_plural%%( $per_page = 20, $page_number = 1 ) {
+    global $wpdb;
+
+    $sql = "SELECT * FROM {$wpdb->prefix}%%crud_plural%%";
+
+    if ( ! empty( $_REQUEST['s'] ) ) {
+        $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
+    }
+
+    if ( ! empty( $_REQUEST['orderby'] ) ) {
+        $sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
+        $sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+    }
+
+    $sql .= " LIMIT $per_page";
+    $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+
+    $result = $wpdb->get_results( $sql, 'ARRAY_A' );
+
+    return $result;
+}
+
+/**
+ * Delete a %%crud_singular%% record.
+ *
+ * @param  int $id %%crud_singular%% id
+ *
+ * @return boolean
+ */
+function %%prefix%%delete_%%crud_singular%%( $id ) {
+    global $wpdb;
+
+    return $wpdb->delete(
+        "{$wpdb->prefix}%%crud_plural%%",
+        [ 'id' => $id ],
+        [ '%d' ]
+    );
+}
+
+/**
+ * Returns the count of records in the database.
+ *
+ * @return null|string
+ */
+function %%prefix%%record_count() {
+    global $wpdb;
+
+    $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_plural%%";
+
+    if ( ! empty( $_REQUEST['s'] ) ) {
+        $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
+    }
+
+    return $wpdb->get_var( $sql );
+}
+
+/**
+ * Insert a new %%crud_singular%%.
+ *
+ * @param boolean
+ */
+%%prefix%%insert_%%crud_singular%%( $args = array() ) {
+    global $wpdb;
+
+    $defaults = array(
+        'id'        => null,
+        %%form_single_default%%
+    );
+
+    $args       = wp_parse_args( $args, $defaults );
+    $table_name = $wpdb->prefix . '%%crud_plural%%';
+
+    // remove row id to determine if new or update
+    $row_id = (int) $args['id'];
+    unset( $args['id'] );
+
+    if ( ! $row_id ) {
+        $args['date'] = current_time( 'mysql' );
+
+        // insert a new
+        if ( $wpdb->insert( $table_name, $args ) ) {
+            return $wpdb->insert_id;
+        }
+    } else {
+        // do update method here
+        if ( $wpdb->update( $table_name, $args, array( 'id' => $row_id ) ) ) {
+            return $row_id;
+        }
+    }
+
+    return false;
+}

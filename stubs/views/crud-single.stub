@@ -1,5 +1,5 @@
 <?php
-$item = $this->%%crud_singular%%_obj->get_%%crud_singular%%( $id );
+$item = %%prefix%%get_%%crud_singular%%( $id );
 ?>
 
 <div class="wrap">

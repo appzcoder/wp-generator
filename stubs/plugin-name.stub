@@ -29,6 +29,7 @@ class %%plugin_name_cap_u%% {
 	public function __construct() {
 		if ( is_admin() ) {
 			include dirname( __FILE__ ) . '/includes/%%crud_singular%%/class-%%crud_singular%%-admin-menu.php';
+			include dirname( __FILE__ ) . '/includes/%%prefix%%functions.php';
 			new %%crud_singular_cap%%_Admin_Menu();
 		}
 
