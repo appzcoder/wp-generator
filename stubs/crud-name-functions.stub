@@ -1,29 +1,29 @@
 <?php
 /**
- * Retrieve %%crud_singular%% data from the database.
+ * Retrieve %%crud_name%% data from the database.
  *
  * @param int $id
  *
  * @return void
  */
-function %%prefix%%get_%%crud_singular%%( $id = 0 ) {
+function %%prefix%%get_%%crud_name%%( $id = 0 ) {
     global $wpdb;
 
-    return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}%%crud_plural%% WHERE id = %d", $id ) );
+    return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}%%crud_name%% WHERE id = %d", $id ) );
 }
 
 /**
- * Retrieve %%crud_plural%% data from the database.
+ * Retrieve %%crud_name%% data from the database.
  *
  * @param int $per_page
  * @param int $page_number
  *
  * @return void
  */
-function %%prefix%%get_%%crud_plural%%( $per_page = 20, $page_number = 1 ) {
+function %%prefix%%get_%%crud_name%%( $per_page = 20, $page_number = 1 ) {
     global $wpdb;
 
-    $sql = "SELECT * FROM {$wpdb->prefix}%%crud_plural%%";
+    $sql = "SELECT * FROM {$wpdb->prefix}%%crud_name%%";
 
     if ( ! empty( $_REQUEST['s'] ) ) {
         $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
@@ -43,17 +43,17 @@ function %%prefix%%get_%%crud_plural%%( $per_page = 20, $page_number = 1 ) {
 }
 
 /**
- * Delete a %%crud_singular%% record.
+ * Delete a %%crud_name%% record.
  *
- * @param  int $id %%crud_singular%% id
+ * @param  int $id %%crud_name%% id
  *
  * @return boolean
  */
-function %%prefix%%delete_%%crud_singular%%( $id ) {
+function %%prefix%%delete_%%crud_name%%( $id ) {
     global $wpdb;
 
     return $wpdb->delete(
-        "{$wpdb->prefix}%%crud_plural%%",
+        "{$wpdb->prefix}%%crud_name%%",
         [ 'id' => $id ],
         [ '%d' ]
     );
@@ -67,7 +67,7 @@ function %%prefix%%delete_%%crud_singular%%( $id ) {
 function %%prefix%%record_count() {
     global $wpdb;
 
-    $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_plural%%";
+    $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_name%%";
 
     if ( ! empty( $_REQUEST['s'] ) ) {
         $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
@@ -77,11 +77,11 @@ function %%prefix%%record_count() {
 }
 
 /**
- * Insert a new %%crud_singular%%.
+ * Insert a new %%crud_name%%.
  *
  * @param boolean
  */
-%%prefix%%insert_%%crud_singular%%( $args = array() ) {
+%%prefix%%insert_%%crud_name%%( $args = array() ) {
     global $wpdb;
 
     $defaults = array(
@@ -90,7 +90,7 @@ function %%prefix%%record_count() {
     );
 
     $args       = wp_parse_args( $args, $defaults );
-    $table_name = $wpdb->prefix . '%%crud_plural%%';
+    $table_name = $wpdb->prefix . '%%crud_name%%';
 
     // remove row id to determine if new or update
     $row_id = (int) $args['id'];

@@ -7,13 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Admin Menu
  */
-class %%crud_singular_cap%%_Admin_Menu {
+class %%crud_name_cap%%_Admin_Menu {
 	/**
 	 * WP_List_Table object.
 	 *
 	 * @var object
 	 */
-	public $%%crud_singular%%_obj;
+	public $%%crud_name%%_obj;
 
 	/**
 	 * Constructor.
@@ -67,19 +67,19 @@ class %%crud_singular_cap%%_Admin_Menu {
 
         switch ($action) {
             case 'view':
-                $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-single.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-single.php';
                 break;
 
             case 'edit':
-                $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-edit.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-edit.php';
                 break;
 
             case 'new':
-                $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-new.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-new.php';
                 break;
 
             default:
-                $template = dirname( __FILE__ ) . '/views/%%crud_singular%%-list.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-list.php';
                 break;
         }
 
@@ -104,7 +104,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 		add_screen_option( $option, $args );
 
 		include dirname( __FILE__ ) . '/class-%%crud_plural%%-list.php';
-		$this->%%crud_singular%%_obj = new %%crud_plural_cap%%_List();
+		$this->%%crud_name%%_obj = new %%crud_name_cap%%_List();
 	}
 
 	/**
@@ -114,7 +114,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 	 */
 	public function form_handler() {
 		if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'new' || $_GET['action'] == 'edit' ) ) {
-			$this->%%crud_singular%%_obj->process_form_submit();
+			$this->%%crud_name%%_obj->process_form_submit();
 		}
 
 		if ( ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' )
@@ -122,7 +122,7 @@ class %%crud_singular_cap%%_Admin_Menu {
 			|| ( isset( $_POST['action2'] ) && $_POST['action2'] == 'bulk-delete' )
 		) {
 			/** Process bulk action */
-			$this->%%crud_singular%%_obj->process_bulk_action();
+			$this->%%crud_name%%_obj->process_bulk_action();
 		}
 	}
 }

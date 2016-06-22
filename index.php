@@ -88,9 +88,9 @@
 			</div>
 
 			<div class="form-group">
-				<label for="crud_singular" class="col-md-4 control-label">Crud Name:</label>
+				<label for="crud_name" class="col-md-4 control-label">Crud Name:</label>
 				<div class="col-md-4">
-					<input type="text" name="crud_singular" class="form-control" id="crud_singular" placeholder="customer" required="true" />
+					<input type="text" name="crud_name" class="form-control" id="crud_name" placeholder="customers" required="true" />
 				</div>
 			</div>
 			<div class="form-group">

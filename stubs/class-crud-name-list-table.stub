@@ -1,14 +1,8 @@
 <?php
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
-
-if ( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}
-
-class %%crud_plural_cap%%_List extends WP_List_Table {
+/**
+ * %%crud_name_cap%%_List_Table class
+ */
+class %%crud_name_cap%%_List_Table extends WP_List_Table {
     /**
      * Constructor.
      *
@@ -17,24 +11,24 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     public function __construct() {
         parent::__construct( array(
             'singular' => __( '%%crud_singular_cap%%', '%%textdomain%%' ),
-            'plural'   => __( '%%crud_plural_cap%%', '%%textdomain%%' ),
+            'plural'   => __( '%%crud_name_cap%%', '%%textdomain%%' ),
             'ajax'     => false
         ) );
     }
 
     /**
-     * Text displayed when no %%crud_singular%% data is available.
+     * Message to be displayed when there are no items.
      *
      * @return void
      */
     public function no_items() {
-        _e( 'No %%crud_plural%% avaliable.', '%%textdomain%%' );
+        _e( 'No %%crud_name%% avaliable.', '%%textdomain%%' );
     }
 
     /**
      * Render a column when no column specific method exist.
      *
-     * @param array $item
+     * @param array  $item
      * @param string $column_name
      *
      * @return void
@@ -62,7 +56,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     }
 
     /**
-     * Method for name column.
+     * Generates the columns for a single row of the table.
      *
      * @param array $item an array of DB data
      *
@@ -149,7 +143,7 @@ class %%crud_plural_cap%%_List extends WP_List_Table {
     public function process_bulk_action() {
         $page_url = menu_page_url( '%%plugin_page%%', false );
 
-        //Detect when a bulk action is being triggered...
+        // Detect when a bulk action is being triggered...
         if ( 'delete' === $this->current_action() ) {
             // In our file that handles the request, verify the nonce.
             $nonce = esc_attr( $_REQUEST['_wpnonce'] );

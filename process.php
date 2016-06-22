@@ -30,62 +30,72 @@ function process($post_data, $download = true, $delete = true)
                 case 'text':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"text\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="$field" id="$field" class="regular-text" value="" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"text\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"<?php echo esc_attr( \$item->$field ); ?>\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="$field" id="$field" class="regular-text" value="<?php echo esc_attr( \$item->$field ); ?>" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
                 case 'textarea':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <textarea name=\"$field\" id=\"$field\"  rows=\"5\" cols=\"30\" $required></textarea>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <textarea name="$field" id="$field"  rows="5" cols="30" $required></textarea>
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <textarea name=\"$field\" id=\"$field\"  rows=\"5\" cols=\"30\" $required><?php echo esc_attr( \$item->$field ); ?></textarea>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <textarea name="$field" id="$field"  rows="5" cols="30x" $required><?php echo esc_attr( \$item->$field ); ?></textarea>
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
                 case 'number':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"number\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type="number" name="$field" id="$field" class="regular-text" value="" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
                         "<tr class=\"row-$field\">
@@ -102,105 +112,124 @@ function process($post_data, $download = true, $delete = true)
                 case 'email':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"email\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class=\"row-$field\">
+                            <th scope=\"row\">
+                                <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type=\"email\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"\" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"email\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"<?php echo esc_attr( \$item->$field ); ?>\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type="email" name="$field" id="$field" class="regular-text" value="<?php echo esc_attr( \$item->$field ); ?>" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
                 case 'select':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <select name=\"$field\">
-                            <option>Your Option</option>
-                        </select>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <select name="$field">
+                                    <option>Your Option</option>
+                                </select>
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input name=\"users_can_register\" type=\"checkbox\" id=\"users_can_register\">
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input name="users_can_register" type="checkbox" id="users_can_register">
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
                 case 'checkbox':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <label for=\"$field\">
-                        <input name=\"$field\" type=\"checkbox\" id=\"$field\" value=\"1\">
-                        Confirm</label>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <label for="$field">
+                                    <input name="$field" type="checkbox" id="$field" value="1">
+                                    Confirm
+                                </label>
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <label for=\"$field\">
-                        <input name=\"$field\" type=\"checkbox\" id=\"$field\" value=\"1\">
-                        Confirm</label>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <label for="$field">
+                                    <input name="$field" type="checkbox" id="$field" value="1">
+                                    Confirm
+                                </label>
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
                 case 'radio':
 
                     $new_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <label for=\"$field\">
-                        <input type=\"radio\" name=\"$field\" value=\"yes\">
-                        <input type=\"radio\" name=\"$field\" value=\"no\">
-                        Confirm</label>
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <label for="$field">
+                                    <input type="radio" name="$field" value="yes">
+                                    <input type="radio" name="$field" value="no">
+                                    Confirm
+                                </label>
+                            </td>
+                        </tr>
+EOD;
 
                     $edit_view_form .=
-                        "<tr class=\"row-$field\">
-                        <th scope=\"row\">
-                        <label for=\"$field\"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
-                        </th>
-                        <td>
-                        <input type=\"text\" name=\"$field\" id=\"$field\" class=\"regular-text\" value=\"<?php echo esc_attr( \$item->$field ); ?>\" $required />
-                        </td>
-                        </tr>\n";
+                        <<<EOD
+                        <tr class="row-$field">
+                            <th scope="row">
+                                <label for="$field"><?php _e( '" . $field_label . "', '%%textdomain%%' ); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="$field" id="$field" class="regular-text" value="<?php echo esc_attr( \$item->$field ); ?>" $required />
+                            </td>
+                        </tr>
+EOD;
 
                     break;
 
@@ -208,23 +237,23 @@ function process($post_data, $download = true, $delete = true)
 
             $column_default .= "case '$field':\n";
 
-            $columns .= "'$field'    => __( '$field_label', '%%textdomain%%' ),\n";
+            $columns .= "'$field' => __( '$field_label', '%%textdomain%%' ),\n";
 
             $sortable_columns .= "'$field' => array( '$field', true ),\n";
 
             if ($field_type == 'textarea') {
-                $form_submit_fields .= "\$$field       = isset( \$_POST['$field'] ) ? wp_kses_post( \$_POST['$field'] ) : '';\n";
+                $form_submit_fields .= "\$$field = isset( \$_POST['$field'] ) ? wp_kses_post( \$_POST['$field'] ) : '';\n";
                 // Database schema generate
                 $database_schema .= "$field text NOT NULL,\n";
             } else {
-                $form_submit_fields .= "\$$field       = isset( \$_POST['$field'] ) ? sanitize_text_field( \$_POST['$field'] ) : '';\n";
+                $form_submit_fields .= "\$$field = isset( \$_POST['$field'] ) ? sanitize_text_field( \$_POST['$field'] ) : '';\n";
                 // Database schema generate
                 $database_schema .= "$field varchar(255) DEFAULT '' NOT NULL,\n";
             }
 
-            $form_fields .= "'$field'      => \$$field,\n";
+            $form_fields .= "'$field' => \$$field,\n";
 
-            $form_single_default .= "'$field'      => '',\n";
+            $form_single_default .= "'$field' => '',\n";
 
             if (isset($post_data['fields_required'][$key])) {
                 $form_validation .=
@@ -249,10 +278,9 @@ function process($post_data, $download = true, $delete = true)
         $data['plugin_version'] = $post_data['plugin_version'];
         $data['plugin_author'] = $post_data['plugin_author'];
         $data['plugin_author_url'] = $post_data['plugin_author_url'];
-        $data['crud_singular'] = strtolower($post_data['crud_singular']);
-        $data['crud_singular_cap'] = ucwords($data['crud_singular']);
-        $data['crud_plural'] = $data['crud_singular'] . 's';
-        $data['crud_plural_cap'] = ucwords($data['crud_plural']);
+        $data['crud_name'] = strtolower($post_data['crud_name']);
+        $data['crud_name_cap'] = ucwords($data['crud_name']);
+        $data['crud_name_singular'] = singularize($data['crud_name']);
         $data['plugin_page'] = strtolower($data['plugin_name_dash']);
         $data['textdomain'] = $post_data['textdomain'];
         $data['prefix'] = $post_data['prefix'];
@@ -262,23 +290,23 @@ function process($post_data, $download = true, $delete = true)
         $plugin_uninstall_file = file_get_contents(dirname(__FILE__) . '/stubs/uninstall.stub');
 
         $crud_admin_menu_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-admin-menu.stub');
-        $crud_wp_list_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-list.stub');
-        $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-list.stub');
-        $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-new.stub');
-        $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-edit.stub');
-        $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-single.stub');
+        $crud_wp_list_table_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-list-table.stub');
+        $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name.stub');
+        $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-new.stub');
+        $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-edit.stub');
+        $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-single.stub');
 
         // Replacing database schema
         $plugin_main_file = str_replace("%%database_schema%%", $database_schema, $plugin_main_file);
 
         // Replacing wp_list_table file data
-        $crud_wp_list_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%columns%%", $columns, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_single_default%%", $form_single_default, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_file);
+        $crud_wp_list_table_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%columns%%", $columns, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_single_default%%", $form_single_default, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_table_file);
 
         // Repacing form html
         $crud_new_view_file = str_replace("%%new_view_form%%", $new_view_form, $crud_new_view_file);
@@ -289,7 +317,7 @@ function process($post_data, $download = true, $delete = true)
             $plugin_main_file = str_replace("%%$key%%", $value, $plugin_main_file);
             $plugin_uninstall_file = str_replace("%%$key%%", $value, $plugin_uninstall_file);
             $crud_admin_menu_file = str_replace("%%$key%%", $value, $crud_admin_menu_file);
-            $crud_wp_list_file = str_replace("%%$key%%", $value, $crud_wp_list_file);
+            $crud_wp_list_table_file = str_replace("%%$key%%", $value, $crud_wp_list_table_file);
             $crud_list_view_file = str_replace("%%$key%%", $value, $crud_list_view_file);
             $crud_new_view_file = str_replace("%%$key%%", $value, $crud_new_view_file);
             $crud_edit_view_file = str_replace("%%$key%%", $value, $crud_edit_view_file);
@@ -313,41 +341,40 @@ function process($post_data, $download = true, $delete = true)
             mkdir($plugin_dir . 'includes/', 0777);
         }
 
-        $crud_dir = $plugin_dir . 'includes/' . $data['crud_singular'] . '/';
+        $crud_dir = $plugin_dir . 'includes/' . $data['crud_name'] . '/';
         if (!is_dir($crud_dir)) {
             mkdir($crud_dir, 0777);
         }
 
-        file_put_contents($crud_dir . 'class-' . $data['crud_singular'] . '-admin-menu.php', $crud_admin_menu_file);
+        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-admin-menu.php', $crud_admin_menu_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'class-' . $data['crud_plural'] . '-list.php', $crud_wp_list_file);
+        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-list-table.php', $crud_wp_list_table_file);
 
         if (!is_dir($crud_dir . 'views/')) {
             mkdir($crud_dir . 'views/', 0777);
         }
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-list.php', $crud_list_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name'] . '.php', $crud_list_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-new.php', $crud_new_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-new.php', $crud_new_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-edit.php', $crud_edit_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-edit.php', $crud_edit_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-single.php', $crud_single_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-single.php', $crud_single_view_file);
 
-        zip_dir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
+        zipDir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
 
     } else {
-        $data['crud_singular'] = strtolower($post_data['crud_singular']);
-        $data['crud_singular_cap'] = ucwords($data['crud_singular']);
-        $data['crud_plural'] = $data['crud_singular'] . 's';
-        $data['crud_plural_cap'] = ucwords($data['crud_plural']);
+        $data['crud_name'] = strtolower($post_data['crud_name']);
+        $data['crud_name_cap'] = ucwords($data['crud_name']);
+        $data['crud_name_singular'] = singularize($data['crud_name']);
 
-        $data['plugin_name_dash'] = str_replace(' ', '-', $data['crud_singular']);
-        $data['plugin_name_cap'] = ucwords($data['crud_singular']);
+        $data['plugin_name_dash'] = str_replace(' ', '-', $data['crud_name']);
+        $data['plugin_name_cap'] = ucwords($data['crud_name']);
         $data['plugin_page'] = strtolower($data['plugin_name_dash']);
 
         $data['textdomain'] = $post_data['textdomain'];
@@ -355,20 +382,20 @@ function process($post_data, $download = true, $delete = true)
 
         // Getting contents from stubs file
         $crud_admin_menu_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-admin-menu.stub');
-        $crud_wp_list_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-list.stub');
-        $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-list.stub');
-        $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-new.stub');
-        $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-edit.stub');
-        $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-single.stub');
+        $crud_wp_list_table_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-list-table.stub');
+        $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name.stub');
+        $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-new.stub');
+        $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-edit.stub');
+        $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-single.stub');
 
         // Replacing wp_list_table file data
-        $crud_wp_list_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%columns%%", $columns, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_single_default%%", $form_single_default, $crud_wp_list_file);
-        $crud_wp_list_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_file);
+        $crud_wp_list_table_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%columns%%", $columns, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_single_default%%", $form_single_default, $crud_wp_list_table_file);
+        $crud_wp_list_table_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_table_file);
 
         // Repacing form html
         $crud_new_view_file = str_replace("%%new_view_form%%", $new_view_form, $crud_new_view_file);
@@ -377,39 +404,39 @@ function process($post_data, $download = true, $delete = true)
         // Replacing user defined keyword
         foreach ($data as $key => $value) {
             $crud_admin_menu_file = str_replace("%%$key%%", $value, $crud_admin_menu_file);
-            $crud_wp_list_file = str_replace("%%$key%%", $value, $crud_wp_list_file);
+            $crud_wp_list_table_file = str_replace("%%$key%%", $value, $crud_wp_list_table_file);
             $crud_list_view_file = str_replace("%%$key%%", $value, $crud_list_view_file);
             $crud_new_view_file = str_replace("%%$key%%", $value, $crud_new_view_file);
             $crud_edit_view_file = str_replace("%%$key%%", $value, $crud_edit_view_file);
             $crud_single_view_file = str_replace("%%$key%%", $value, $crud_single_view_file);
         }
 
-        $crud_dir = dirname(__FILE__) . '/plugins/' . $data['crud_singular'] . '/';
+        $crud_dir = dirname(__FILE__) . '/plugins/' . $data['crud_name'] . '/';
         if (!is_dir($crud_dir)) {
             mkdir($crud_dir, 0777);
         }
 
-        file_put_contents($crud_dir . 'class-' . $data['crud_singular'] . '-admin-menu.php', $crud_admin_menu_file);
+        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-admin-menu.php', $crud_admin_menu_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'class-' . $data['crud_plural'] . '-list.php', $crud_wp_list_file);
+        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-list-table.php', $crud_wp_list_table_file);
 
         if (!is_dir($crud_dir . 'views/')) {
             mkdir($crud_dir . 'views/', 0777);
         }
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-list.php', $crud_list_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name'] . '.php', $crud_list_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-new.php', $crud_new_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-new.php', $crud_new_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-edit.php', $crud_edit_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-edit.php', $crud_edit_view_file);
 
         // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_singular'] . '-single.php', $crud_single_view_file);
+        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-single.php', $crud_single_view_file);
 
-        zip_dir($crud_dir, $data['plugin_name_dash'] . '.zip', $download);
+        zipDir($crud_dir, $data['plugin_name_dash'] . '.zip', $download);
 
     }
 
@@ -432,7 +459,7 @@ function process($post_data, $download = true, $delete = true)
 }
 
 // For zip files
-function zip_dir($source, $destination, $download = false)
+function zipDir($source, $destination, $download = false)
 {
     if (!extension_loaded('zip') || !file_exists($source)) {
         return false;
@@ -479,4 +506,89 @@ function zip_dir($source, $destination, $download = false)
     }
 
     return true;
+}
+
+/**
+ * Singularize a string.
+ * Converts a word to english singular form.
+ *
+ * Usage example:
+ * {singularize "people"} # person
+ */
+function singularize($params)
+{
+    if (is_string($params)) {
+        $word = $params;
+    } else if (!$word = $params['word']) {
+        return false;
+    }
+
+    $singular = array(
+        '/(quiz)zes$/i' => '\\1',
+        '/(matr)ices$/i' => '\\1ix',
+        '/(vert|ind)ices$/i' => '\\1ex',
+        '/^(ox)en/i' => '\\1',
+        '/(alias|status)es$/i' => '\\1',
+        '/([octop|vir])i$/i' => '\\1us',
+        '/(cris|ax|test)es$/i' => '\\1is',
+        '/(shoe)s$/i' => '\\1',
+        '/(o)es$/i' => '\\1',
+        '/(bus)es$/i' => '\\1',
+        '/([m|l])ice$/i' => '\\1ouse',
+        '/(x|ch|ss|sh)es$/i' => '\\1',
+        '/(m)ovies$/i' => '\\1ovie',
+        '/(s)eries$/i' => '\\1eries',
+        '/([^aeiouy]|qu)ies$/i' => '\\1y',
+        '/([lr])ves$/i' => '\\1f',
+        '/(tive)s$/i' => '\\1',
+        '/(hive)s$/i' => '\\1',
+        '/([^f])ves$/i' => '\\1fe',
+        '/(^analy)ses$/i' => '\\1sis',
+        '/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i' => '\\1\\2sis',
+        '/([ti])a$/i' => '\\1um',
+        '/(n)ews$/i' => '\\1ews',
+        '/s$/i' => '',
+    );
+
+    $irregular = array(
+        'person' => 'people',
+        'man' => 'men',
+        'child' => 'children',
+        'sex' => 'sexes',
+        'move' => 'moves',
+    );
+
+    $ignore = array(
+        'equipment',
+        'information',
+        'rice',
+        'money',
+        'species',
+        'series',
+        'fish',
+        'sheep',
+        'press',
+        'sms',
+    );
+
+    $lower_word = strtolower($word);
+    foreach ($ignore as $ignore_word) {
+        if (substr($lower_word, (-1 * strlen($ignore_word))) == $ignore_word) {
+            return $word;
+        }
+    }
+
+    foreach ($irregular as $singular_word => $plural_word) {
+        if (preg_match('/(' . $plural_word . ')$/i', $word, $arr)) {
+            return preg_replace('/(' . $plural_word . ')$/i', substr($arr[0], 0, 1) . substr($singular_word, 1), $word);
+        }
+    }
+
+    foreach ($singular as $rule => $replacement) {
+        if (preg_match($rule, $word)) {
+            return preg_replace($rule, $replacement, $word);
+        }
+    }
+
+    return $word;
 }
