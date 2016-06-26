@@ -1,12 +1,12 @@
 <?php
 /**
- * Retrieve %%crud_name%% data from the database.
+ * Retrieve %%crud_name_singular%% data from the database.
  *
  * @param int $id
  *
  * @return void
  */
-function %%prefix%%get_%%crud_name%%( $id = 0 ) {
+function %%prefix%%get_%%crud_name_singular%%( $id = 0 ) {
     global $wpdb;
 
     return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}%%crud_name%% WHERE id = %d", $id ) );
@@ -43,13 +43,13 @@ function %%prefix%%get_%%crud_name%%( $per_page = 20, $page_number = 1 ) {
 }
 
 /**
- * Delete a %%crud_name%% record.
+ * Delete a %%crud_name_singular%% record.
  *
- * @param  int $id %%crud_name%% id
+ * @param  int $id %%crud_name_singular%% id
  *
  * @return boolean
  */
-function %%prefix%%delete_%%crud_name%%( $id ) {
+function %%prefix%%delete_%%crud_name_singular%%( $id ) {
     global $wpdb;
 
     return $wpdb->delete(
@@ -60,11 +60,11 @@ function %%prefix%%delete_%%crud_name%%( $id ) {
 }
 
 /**
- * Returns the count of records in the database.
+ * Count %%crud_name%%.
  *
- * @return null|string
+ * @return int
  */
-function %%prefix%%record_count() {
+function %%prefix%%count_%%crud_name%%() {
     global $wpdb;
 
     $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_name%%";
@@ -81,11 +81,11 @@ function %%prefix%%record_count() {
  *
  * @param boolean
  */
-%%prefix%%insert_%%crud_name%%( $args = array() ) {
+function %%prefix%%insert_%%crud_name_singular%%( $args = array() ) {
     global $wpdb;
 
     $defaults = array(
-        'id'        => null,
+        'id' => null,
         %%form_single_default%%
     );
 

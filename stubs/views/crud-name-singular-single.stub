@@ -1,9 +1,9 @@
 <?php
-$item = %%prefix%%get_%%crud_singular%%( $id );
+$item = %%prefix%%get_%%crud_name_singular%%( $id );
 ?>
 
 <div class="wrap">
-    <h1><?php _e( '%%crud_singular_cap%%', '%%textdomain%%' ); ?></h1>
+    <h1><?php _e( '%%crud_name_singular_cap%%', '%%textdomain%%' ); ?></h1>
 
         <table class="form-table">
             <tbody>

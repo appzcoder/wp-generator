@@ -28,9 +28,9 @@ class %%plugin_name_cap_u%% {
 	 */
 	public function __construct() {
 		if ( is_admin() ) {
-			include dirname( __FILE__ ) . '/includes/%%crud_singular%%/class-%%crud_singular%%-admin-menu.php';
-			include dirname( __FILE__ ) . '/includes/%%prefix%%functions.php';
-			new %%crud_singular_cap%%_Admin_Menu();
+			include dirname( __FILE__ ) . '/includes/%%crud_name%%/class-%%crud_name%%-admin-menu.php';
+			include dirname( __FILE__ ) . '/includes/%%crud_name%%/%%crud_name%%-functions.php';
+			new %%crud_name_cap%%_Admin_Menu();
 		}
 
 		register_activation_hook( __FILE__, array( $this, 'create_table' ) );
@@ -58,7 +58,7 @@ class %%plugin_name_cap_u%% {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_name = $wpdb->prefix . '%%crud_plural%%';
+		$table_name = $wpdb->prefix . '%%crud_name%%';
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			id int(11) NOT NULL AUTO_INCREMENT,

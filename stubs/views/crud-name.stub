@@ -1,11 +1,11 @@
 <div class="wrap">
-	<h2><?php _e( '%%crud_plural_cap%%', '%%textdomain%%' ); ?> <?php echo sprintf( '<a href="?page=%s&action=%s" class="add-new-h2">Add New</a>',  esc_attr( $_REQUEST['page'] ), 'new' ); ?></h2>
+	<h2><?php _e( '%%crud_name_cap%%', '%%textdomain%%' ); ?> <?php echo sprintf( '<a href="?page=%s&action=%s" class="add-new-h2">Add New</a>',  esc_attr( $_REQUEST['page'] ), 'new' ); ?></h2>
 
 	<form method="post">
-		<input type="hidden" name="page" value="%%crud_plural%%">
+		<input type="hidden" name="page" value="%%crud_name%%">
 		<?php
-		$this->%%crud_singular%%_obj->prepare_items();
-		$this->%%crud_singular%%_obj->search_box( 'Search', '%%crud_plural%%' );
-		$this->%%crud_singular%%_obj->display(); ?>
+		$this->%%crud_name%%_obj->prepare_items();
+		$this->%%crud_name%%_obj->search_box( __( 'Search', '%%textdomain%%' ), '%%crud_name%%' );
+		$this->%%crud_name%%_obj->display(); ?>
 	</form>
 </div>

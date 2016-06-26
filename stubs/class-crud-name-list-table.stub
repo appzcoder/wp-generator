@@ -10,7 +10,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
      */
     public function __construct() {
         parent::__construct( array(
-            'singular' => __( '%%crud_singular_cap%%', '%%textdomain%%' ),
+            'singular' => __( '%%crud_name_singular_cap%%', '%%textdomain%%' ),
             'plural'   => __( '%%crud_name_cap%%', '%%textdomain%%' ),
             'ajax'     => false
         ) );
@@ -63,7 +63,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
      * @return string
      */
     function column_name( $item ) {
-        $delete_nonce = wp_create_nonce( '%%prefix%%delete_%%crud_singular%%' );
+        $delete_nonce = wp_create_nonce( '%%prefix%%delete_%%crud_name_singular%%' );
 
         $title = '<strong>' . $item['name'] . '</strong>';
 
@@ -76,13 +76,13 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
     }
 
     /**
-     *  Associative array of columns.
+     *  Get a list of columns.
      *
      * @return array
      */
     function get_columns() {
         $columns = [
-            'cb'      => '<input type="checkbox" />',
+            'cb' => '<input type="checkbox" />',
             %%columns%%
         ];
 
@@ -90,7 +90,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
     }
 
     /**
-     * Columns to make sortable.
+     * Get a list of sortable columns.
      *
      * @return array
      */
@@ -116,23 +116,23 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
     }
 
     /**
-     * Handles data query and filter, sorting, and pagination.
+     * Prepares the list of items for displaying.
      *
      * @return void
      */
     public function prepare_items() {
         $this->_column_headers = $this->get_column_info();
 
-        $per_page     = $this->get_items_per_page( '%%crud_plural%%_per_page', 5 );
+        $per_page     = $this->get_items_per_page( '%%crud_name%%_per_page', 5 );
         $current_page = $this->get_pagenum();
-        $total_items  = %%prefix%%record_count();
+        $total_items  = %%prefix%%count_%%crud_name%%();
 
         $this->set_pagination_args( [
             'total_items' => $total_items,
             'per_page'    => $per_page
         ] );
 
-        $this->items = %%prefix%%get_%%crud_plural%%( $per_page, $current_page );
+        $this->items = %%prefix%%get_%%crud_name%%( $per_page, $current_page );
     }
 
     /**
@@ -148,10 +148,10 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
             // In our file that handles the request, verify the nonce.
             $nonce = esc_attr( $_REQUEST['_wpnonce'] );
 
-            if ( ! wp_verify_nonce( $nonce, '%%prefix%%delete_%%crud_singular%%' ) ) {
+            if ( ! wp_verify_nonce( $nonce, '%%prefix%%delete_%%crud_name_singular%%' ) ) {
                 die( 'Go get a life script kiddies' );
             } else {
-                %%prefix%%delete_%%crud_singular%%( absint( $_GET['id'] ) );
+                %%prefix%%delete_%%crud_name_singular%%( absint( $_GET['id'] ) );
 
                 // Redirect
                 $query = array( 'message' => 'deleted');
@@ -169,7 +169,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
 
             // loop over the array of record ids and delete them
             foreach ( $delete_ids as $id ) {
-                %%prefix%%delete_%%crud_singular%%( $id );
+                %%prefix%%delete_%%crud_name_singular%%( $id );
             }
 
             // Redirect
@@ -186,11 +186,11 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
      * @return void
      */
     public function process_form_submit() {
-        if ( ! isset( $_POST['submit_%%crud_singular%%'] ) ) {
+        if ( ! isset( $_POST['submit_%%crud_name_singular%%'] ) ) {
             return;
         }
 
-        if ( ! wp_verify_nonce( $_POST['_wpnonce'], '%%prefix%%new_%%crud_singular%%' ) ) {
+        if ( ! wp_verify_nonce( $_POST['_wpnonce'], '%%prefix%%new_%%crud_name_singular%%' ) ) {
             die( 'Go get a life script kiddies' );
         }
 
@@ -210,11 +210,11 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
 
         // New or edit?
         if ( ! $field_id ) {
-            $insert_id = %%prefix%%insert_%%crud_singular%%( $fields );
+            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
         } else {
             $fields['id'] = $field_id;
 
-            $insert_id = %%prefix%%insert_%%crud_singular%%( $fields );
+            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
         }
 
         if ( is_wp_error( $insert_id ) ) {

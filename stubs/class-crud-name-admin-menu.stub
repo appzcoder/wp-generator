@@ -67,19 +67,19 @@ class %%crud_name_cap%%_Admin_Menu {
 
         switch ($action) {
             case 'view':
-                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-single.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name_singular%%-single.php';
                 break;
 
             case 'edit':
-                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-edit.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name_singular%%-edit.php';
                 break;
 
             case 'new':
-                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-new.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name_singular%%-new.php';
                 break;
 
             default:
-                $template = dirname( __FILE__ ) . '/views/%%crud_name%%-list.php';
+                $template = dirname( __FILE__ ) . '/views/%%crud_name%%.php';
                 break;
         }
 
@@ -96,15 +96,15 @@ class %%crud_name_cap%%_Admin_Menu {
 	public function screen_option() {
 		$option = 'per_page';
 		$args   = array(
-			'label'   => '%%crud_plural_cap%%',
+			'label'   => '%%crud_name_cap%%',
 			'default' => 20,
-			'option'  => '%%crud_plural%%_per_page'
+			'option'  => '%%crud_name%%_per_page'
 		);
 
 		add_screen_option( $option, $args );
 
-		include dirname( __FILE__ ) . '/class-%%crud_plural%%-list.php';
-		$this->%%crud_name%%_obj = new %%crud_name_cap%%_List();
+		include dirname( __FILE__ ) . '/class-%%crud_name%%-list-table.php';
+		$this->%%crud_name%%_obj = new %%crud_name_cap%%_List_Table();
 	}
 
 	/**

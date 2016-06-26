@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1><?php _e( 'Add %%crud_singular_cap%%', '%%textdomain%%' ); ?></h1>
+    <h1><?php _e( 'Add %%crud_name_singular_cap%%', '%%textdomain%%' ); ?></h1>
 
     <form action="" method="post">
 
@@ -11,8 +11,8 @@
 
         <input type="hidden" name="field_id" value="0">
 
-        <?php wp_nonce_field( '%%prefix%%new_%%crud_singular%%' ); ?>
-        <?php submit_button( __( 'Add %%crud_singular_cap%%', '%%textdomain%%' ), 'primary', 'submit_%%crud_singular%%' ); ?>
+        <?php wp_nonce_field( '%%prefix%%new_%%crud_name_singular%%' ); ?>
+        <?php submit_button( __( 'Add %%crud_name_singular_cap%%', '%%textdomain%%' ), 'primary', 'submit_%%crud_name_singular%%' ); ?>
 
     </form>
 </div>
