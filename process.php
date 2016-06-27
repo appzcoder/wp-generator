@@ -268,116 +268,112 @@ EOD;
 
     }
 
-    if ($post_data['type_of_crud_generator'] == 'plugin') {
+    $data['plugin_name'] = strtolower($post_data['plugin_name']);
+    $data['plugin_name_u'] = str_replace(' ', '_', $data['plugin_name']);
+    $data['plugin_name_dash'] = str_replace(' ', '-', $data['plugin_name']);
+    $data['plugin_name_cap'] = ucwords($data['plugin_name']);
+    $data['plugin_name_cap_u'] = str_replace(' ', '_', $data['plugin_name_cap']);
+    $data['plugin_url'] = $post_data['plugin_url'];
+    $data['plugin_description'] = $post_data['plugin_description'];
+    $data['plugin_version'] = $post_data['plugin_version'];
+    $data['plugin_author'] = $post_data['plugin_author'];
+    $data['plugin_author_url'] = $post_data['plugin_author_url'];
+    $data['crud_name'] = strtolower($post_data['crud_name']);
+    $data['crud_name_cap'] = ucwords($data['crud_name']);
+    $data['crud_name_singular'] = singularize($data['crud_name']);
+    $data['crud_name_singular_cap'] = ucwords($data['crud_name_singular']);
+    $data['plugin_page'] = strtolower($data['plugin_name_dash']);
+    $data['textdomain'] = $post_data['textdomain'];
+    $data['prefix'] = $post_data['prefix'];
 
-        $data['plugin_name'] = strtolower($post_data['plugin_name']);
-        $data['plugin_name_u'] = str_replace(' ', '_', $data['plugin_name']);
-        $data['plugin_name_dash'] = str_replace(' ', '-', $data['plugin_name']);
-        $data['plugin_name_cap'] = ucwords($data['plugin_name']);
-        $data['plugin_name_cap_u'] = str_replace(' ', '_', $data['plugin_name_cap']);
-        $data['plugin_url'] = $post_data['plugin_url'];
-        $data['plugin_description'] = $post_data['plugin_description'];
-        $data['plugin_version'] = $post_data['plugin_version'];
-        $data['plugin_author'] = $post_data['plugin_author'];
-        $data['plugin_author_url'] = $post_data['plugin_author_url'];
-        $data['crud_name'] = strtolower($post_data['crud_name']);
-        $data['crud_name_cap'] = ucwords($data['crud_name']);
-        $data['crud_name_singular'] = singularize($data['crud_name']);
-        $data['crud_name_singular_cap'] = ucwords($data['crud_name_singular']);
-        $data['plugin_page'] = strtolower($data['plugin_name_dash']);
-        $data['textdomain'] = $post_data['textdomain'];
-        $data['prefix'] = $post_data['prefix'];
+    // Getting contents from stubs file
+    $plugin_main_file = file_get_contents(dirname(__FILE__) . '/stubs/plugin-name.stub');
+    $plugin_uninstall_file = file_get_contents(dirname(__FILE__) . '/stubs/uninstall.stub');
 
-        // Getting contents from stubs file
-        $plugin_main_file = file_get_contents(dirname(__FILE__) . '/stubs/plugin-name.stub');
-        $plugin_uninstall_file = file_get_contents(dirname(__FILE__) . '/stubs/uninstall.stub');
+    $crud_admin_menu_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-admin-menu.stub');
+    $crud_functions_file = file_get_contents(dirname(__FILE__) . '/stubs/crud-name-functions.stub');
+    $crud_wp_list_table_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-list-table.stub');
+    $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name.stub');
+    $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-new.stub');
+    $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-edit.stub');
+    $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-single.stub');
 
-        $crud_admin_menu_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-admin-menu.stub');
-        $crud_functions_file = file_get_contents(dirname(__FILE__) . '/stubs/crud-name-functions.stub');
-        $crud_wp_list_table_file = file_get_contents(dirname(__FILE__) . '/stubs/class-crud-name-list-table.stub');
-        $crud_list_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name.stub');
-        $crud_new_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-new.stub');
-        $crud_edit_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-edit.stub');
-        $crud_single_view_file = file_get_contents(dirname(__FILE__) . '/stubs/views/crud-name-singular-single.stub');
+    // Replacing database schema
+    $plugin_main_file = str_replace("%%database_schema%%", $database_schema, $plugin_main_file);
 
-        // Replacing database schema
-        $plugin_main_file = str_replace("%%database_schema%%", $database_schema, $plugin_main_file);
+    // Replacing wp_list_table file data
+    $crud_wp_list_table_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_table_file);
+    $crud_wp_list_table_file = str_replace("%%columns%%", $columns, $crud_wp_list_table_file);
+    $crud_wp_list_table_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_table_file);
+    $crud_wp_list_table_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_table_file);
+    $crud_wp_list_table_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_table_file);
+    $crud_functions_file = str_replace("%%form_single_default%%", $form_single_default, $crud_functions_file);
+    $crud_wp_list_table_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_table_file);
 
-        // Replacing wp_list_table file data
-        $crud_wp_list_table_file = str_replace("%%column_default%%", $column_default, $crud_wp_list_table_file);
-        $crud_wp_list_table_file = str_replace("%%columns%%", $columns, $crud_wp_list_table_file);
-        $crud_wp_list_table_file = str_replace("%%sortable_columns%%", $sortable_columns, $crud_wp_list_table_file);
-        $crud_wp_list_table_file = str_replace("%%form_submit_fields%%", $form_submit_fields, $crud_wp_list_table_file);
-        $crud_wp_list_table_file = str_replace("%%form_fields%%", $form_fields, $crud_wp_list_table_file);
-        $crud_functions_file = str_replace("%%form_single_default%%", $form_single_default, $crud_functions_file);
-        $crud_wp_list_table_file = str_replace("%%form_validation%%", $form_validation, $crud_wp_list_table_file);
+    // Repacing form html
+    $crud_new_view_file = str_replace("%%new_view_form%%", $new_view_form, $crud_new_view_file);
+    $crud_edit_view_file = str_replace("%%edit_view_form%%", $edit_view_form, $crud_edit_view_file);
 
-        // Repacing form html
-        $crud_new_view_file = str_replace("%%new_view_form%%", $new_view_form, $crud_new_view_file);
-        $crud_edit_view_file = str_replace("%%edit_view_form%%", $edit_view_form, $crud_edit_view_file);
-
-        // Replacing user defined keyword
-        foreach ($data as $key => $value) {
-            $plugin_main_file = str_replace("%%$key%%", $value, $plugin_main_file);
-            $plugin_uninstall_file = str_replace("%%$key%%", $value, $plugin_uninstall_file);
-            $crud_functions_file = str_replace("%%$key%%", $value, $crud_functions_file);
-            $crud_admin_menu_file = str_replace("%%$key%%", $value, $crud_admin_menu_file);
-            $crud_wp_list_table_file = str_replace("%%$key%%", $value, $crud_wp_list_table_file);
-            $crud_list_view_file = str_replace("%%$key%%", $value, $crud_list_view_file);
-            $crud_new_view_file = str_replace("%%$key%%", $value, $crud_new_view_file);
-            $crud_edit_view_file = str_replace("%%$key%%", $value, $crud_edit_view_file);
-            $crud_single_view_file = str_replace("%%$key%%", $value, $crud_single_view_file);
-        }
-
-        // Checking/Creating plugin directory
-        $plugin_dir = dirname(__FILE__) . '/plugins/' . $data['plugin_name_dash'] . '/';
-        if (!is_dir($plugin_dir)) {
-            mkdir($plugin_dir, 0777);
-        }
-
-        // Creating plugin main file
-        file_put_contents($plugin_dir . $data['plugin_name_dash'] . '.php', $plugin_main_file);
-
-        // Creating plugin uninstall file
-        file_put_contents($plugin_dir . 'uninstall.php', $plugin_uninstall_file);
-        // Creating plugin main file
-
-        if (!is_dir($plugin_dir . 'includes/')) {
-            mkdir($plugin_dir . 'includes/', 0777);
-        }
-
-        $crud_dir = $plugin_dir . 'includes/' . $data['crud_name'] . '/';
-        if (!is_dir($crud_dir)) {
-            mkdir($crud_dir, 0777);
-        }
-
-        // Creating admin menu file
-        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-admin-menu.php', $crud_admin_menu_file);
-
-        // Creating functions file
-        file_put_contents($crud_dir . $data['crud_name'] . '-functions.php', $crud_functions_file);
-
-        // Creating plugin main file
-        file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-list-table.php', $crud_wp_list_table_file);
-
-        if (!is_dir($crud_dir . 'views/')) {
-            mkdir($crud_dir . 'views/', 0777);
-        }
-        // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_name'] . '.php', $crud_list_view_file);
-
-        // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-new.php', $crud_new_view_file);
-
-        // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-edit.php', $crud_edit_view_file);
-
-        // Creating plugin main file
-        file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-single.php', $crud_single_view_file);
-
-        zipDir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
-
+    // Replacing user defined keyword
+    foreach ($data as $key => $value) {
+        $plugin_main_file = str_replace("%%$key%%", $value, $plugin_main_file);
+        $plugin_uninstall_file = str_replace("%%$key%%", $value, $plugin_uninstall_file);
+        $crud_functions_file = str_replace("%%$key%%", $value, $crud_functions_file);
+        $crud_admin_menu_file = str_replace("%%$key%%", $value, $crud_admin_menu_file);
+        $crud_wp_list_table_file = str_replace("%%$key%%", $value, $crud_wp_list_table_file);
+        $crud_list_view_file = str_replace("%%$key%%", $value, $crud_list_view_file);
+        $crud_new_view_file = str_replace("%%$key%%", $value, $crud_new_view_file);
+        $crud_edit_view_file = str_replace("%%$key%%", $value, $crud_edit_view_file);
+        $crud_single_view_file = str_replace("%%$key%%", $value, $crud_single_view_file);
     }
+
+    // Checking/Creating plugin directory
+    $plugin_dir = dirname(__FILE__) . '/plugins/' . $data['plugin_name_dash'] . '/';
+    if (!is_dir($plugin_dir)) {
+        mkdir($plugin_dir, 0777);
+    }
+
+    // Creating plugin main file
+    file_put_contents($plugin_dir . $data['plugin_name_dash'] . '.php', $plugin_main_file);
+
+    // Creating plugin uninstall file
+    file_put_contents($plugin_dir . 'uninstall.php', $plugin_uninstall_file);
+    // Creating plugin main file
+
+    if (!is_dir($plugin_dir . 'includes/')) {
+        mkdir($plugin_dir . 'includes/', 0777);
+    }
+
+    $crud_dir = $plugin_dir . 'includes/' . $data['crud_name'] . '/';
+    if (!is_dir($crud_dir)) {
+        mkdir($crud_dir, 0777);
+    }
+
+    // Creating admin menu file
+    file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-admin-menu.php', $crud_admin_menu_file);
+
+    // Creating functions file
+    file_put_contents($crud_dir . $data['crud_name'] . '-functions.php', $crud_functions_file);
+
+    // Creating plugin main file
+    file_put_contents($crud_dir . 'class-' . $data['crud_name'] . '-list-table.php', $crud_wp_list_table_file);
+
+    if (!is_dir($crud_dir . 'views/')) {
+        mkdir($crud_dir . 'views/', 0777);
+    }
+    // Creating plugin main file
+    file_put_contents($crud_dir . 'views/' . $data['crud_name'] . '.php', $crud_list_view_file);
+
+    // Creating plugin main file
+    file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-new.php', $crud_new_view_file);
+
+    // Creating plugin main file
+    file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-edit.php', $crud_edit_view_file);
+
+    // Creating plugin main file
+    file_put_contents($crud_dir . 'views/' . $data['crud_name_singular'] . '-single.php', $crud_single_view_file);
+
+    zipDir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
 
     // Deleting existing plugin or module files
     if (file_exists($data['plugin_name_dash'] . '.zip')) {

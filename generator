@@ -46,13 +46,6 @@ function arguments($argv)
     return $_ARG;
 }
 
-if (!isset($inputs_array['type'])) {
-    echo $bg_red . "Crud Type is required. $norlmal_color\n";
-    exit;
-}
-
-$type = $inputs_array['type'];
-
 if (!isset($inputs_array['crud-name'])) {
     echo $bg_red . "Crud name is required. $norlmal_color\n";
     exit;
@@ -62,21 +55,18 @@ $post_data['crud_name'] = $crud_name = $inputs_array['crud-name'];
 $post_data['textdomain'] = isset($inputs_array['textdomain']) ? $inputs_array['textdomain'] : 'appzcoder';
 $post_data['prefix'] = $inputs_array['prefix'];
 
-if ($type == 'plugin') {
-    if (!isset($inputs_array['plugin-name'])) {
-        echo $bg_red . "Plugin name is required. $norlmal_color\n";
-        exit;
-    }
 
-    $post_data['plugin_name'] = $inputs_array['plugin-name'];
-    $post_data['plugin_url'] = isset($inputs_array['plugin-url']) ? $inputs_array['plugin-url'] : 'http://www.appzcoder.com';
-    $post_data['plugin_description'] = isset($inputs_array['plugin-desc']) ? $inputs_array['plugin-desc'] : 'A sample plugin.';
-    $post_data['plugin_version'] = isset($inputs_array['plugin-ver']) ? $inputs_array['plugin-ver'] : '0.1';
-    $post_data['plugin_author'] = isset($inputs_array['plugin-author']) ? $inputs_array['plugin-author'] : 'Sohel Amin';
-    $post_data['plugin_author_url'] = isset($inputs_array['plugin-author-url']) ? $inputs_array['plugin-author-url'] : 'http://www.sohelamin.com';
+if (!isset($inputs_array['plugin-name'])) {
+    echo $bg_red . "Plugin name is required. $norlmal_color\n";
+    exit;
 }
 
-$post_data['type_of_crud_generator'] = $type;
+$post_data['plugin_name'] = $inputs_array['plugin-name'];
+$post_data['plugin_url'] = isset($inputs_array['plugin-url']) ? $inputs_array['plugin-url'] : 'http://www.appzcoder.com';
+$post_data['plugin_description'] = isset($inputs_array['plugin-desc']) ? $inputs_array['plugin-desc'] : 'A sample plugin.';
+$post_data['plugin_version'] = isset($inputs_array['plugin-ver']) ? $inputs_array['plugin-ver'] : '0.1';
+$post_data['plugin_author'] = isset($inputs_array['plugin-author']) ? $inputs_array['plugin-author'] : 'Sohel Amin';
+$post_data['plugin_author_url'] = isset($inputs_array['plugin-author-url']) ? $inputs_array['plugin-author-url'] : 'http://www.sohelamin.com';
 
 if (!isset($inputs_array['fields'])) {
     echo $bg_red . "Fields are required. $norlmal_color\n";
@@ -100,7 +90,7 @@ include 'process.php';
 $is_generated = process($post_data, false, false);
 
 if ($is_generated) {
-    echo $bg_green . "Crud plugin/module successfully generated. $norlmal_color\n";
+    echo $bg_green . "Crud plugin successfully generated. $norlmal_color\n";
 } else {
     echo $bg_red . "Something went wrong!. $norlmal_color\n";
 }
