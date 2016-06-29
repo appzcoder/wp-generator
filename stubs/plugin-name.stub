@@ -10,66 +10,67 @@ Author URI: %%plugin_author_url%%
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 class %%plugin_name_cap_u%% {
-	/**
-	 * Instance of this class.
-	 *
-	 * @var static
-	 */
-	protected static $instance;
+    /**
+     * Instance of this class.
+     *
+     * @var static
+     */
+    protected static $instance;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param mixed
-	 */
-	public function __construct() {
-		if ( is_admin() ) {
-			include dirname( __FILE__ ) . '/includes/%%crud_name%%/class-%%crud_name%%-admin-menu.php';
-			include dirname( __FILE__ ) . '/includes/%%crud_name%%/%%crud_name%%-functions.php';
-			new %%crud_name_cap%%_Admin_Menu();
-		}
+    /**
+     * Constructor.
+     *
+     * @param mixed
+     */
+    public function __construct() {
+        if ( is_admin() ) {
+            include dirname( __FILE__ ) . '/includes/admin/class-admin-menu.php';
+            include dirname( __FILE__ ) . '/includes/%%crud_name%%-functions.php';
 
-		register_activation_hook( __FILE__, array( $this, 'create_table' ) );
-	}
+            new Admin_Menu();
+        }
 
-	/**
-	 * Singleton instance.
-	 *
-	 * @return object
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
+        register_activation_hook( __FILE__, array( $this, 'create_table' ) );
+    }
 
-		return self::$instance;
-	}
+    /**
+     * Singleton instance.
+     *
+     * @return object
+     */
+    public static function get_instance() {
+        if ( ! isset( self::$instance ) ) {
+            self::$instance = new self();
+        }
 
-	/**
-	 * Create relevant table.
-	 *
-	 * @return mixed
-	 */
-	public function create_table() {
-		global $wpdb;
+        return self::$instance;
+    }
 
-		$charset_collate = $wpdb->get_charset_collate();
-		$table_name = $wpdb->prefix . '%%crud_name%%';
+    /**
+     * Create relevant table.
+     *
+     * @return mixed
+     */
+    public function create_table() {
+        global $wpdb;
 
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			%%database_schema%%
-			date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			PRIMARY KEY id (id)
-		) $charset_collate;";
+        $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $wpdb->prefix . '%%crud_name%%';
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
-	}
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            %%database_schema%%
+            date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+            PRIMARY KEY id (id)
+        ) $charset_collate;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+    }
 
 }
 

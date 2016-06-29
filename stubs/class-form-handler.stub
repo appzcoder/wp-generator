@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Admin Form Handler.
+ *
+ * Handle all form's submissions
+ */
+class Form_Handler {
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        add_action( 'admin_init', [ $this, 'handle_%%crud_name%%_form_submit' ] );
+        add_action( 'admin_init', [ $this, 'handle_%%crud_name%%_bulk_action' ] );
+    }
+
+    /**
+     * Handles form data when submitted.
+     *
+     * @return void
+     */
+    public function handle_%%crud_name%%_form_submit() {
+        if ( ! isset( $_POST['submit_%%crud_name_singular%%'] ) ) {
+            return;
+        }
+
+        if ( ! wp_verify_nonce( $_POST['_wpnonce'], '%%prefix%%new_%%crud_name_singular%%' ) ) {
+            wp_die( __( 'Go get a life script kiddies', '%%textdomain%%' ) );
+        }
+
+        if ( ! current_user_can( 'read' ) ) {
+            wp_die( __( 'Permission Denied!', '%%textdomain%%' ) );
+        }
+
+        $errors   = array();
+        $page_url = menu_page_url( '%%plugin_page%%', false );
+        $field_id = isset( $_POST['field_id'] ) ? absint( $_POST['field_id'] ) : 0;
+
+        %%form_submit_fields%%
+
+        $fields = array(
+            %%form_fields%%
+        );
+
+        // New or edit?
+        if ( ! $field_id ) {
+            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
+        } else {
+            $fields['id'] = $field_id;
+
+            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
+        }
+
+        if ( is_wp_error( $insert_id ) ) {
+            $redirect_to = add_query_arg( array( 'message' => 'error' ), $page_url );
+        } else {
+            $redirect_to = add_query_arg( array( 'message' => 'success' ), $page_url );
+        }
+
+        // Redirect
+        wp_redirect( $redirect_to );
+        exit;
+    }
+
+    /**
+     * Handles bulk action and delete.
+     *
+     * @return void
+     */
+    public function handle_%%crud_name%%_bulk_action() {
+        $page_url = menu_page_url( '%%plugin_page%%', false );
+
+        // Detect when a bulk action is being triggered...
+        if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'delete' ) {
+            // In our file that handles the request, verify the nonce.
+            $nonce = esc_attr( $_REQUEST['_wpnonce'] );
+
+            if ( ! wp_verify_nonce( $nonce, '%%prefix%%delete_%%crud_name_singular%%' ) ) {
+                die( 'Go get a life script kiddies' );
+            } else {
+                %%prefix%%delete_%%crud_name_singular%%( absint( $_REQUEST['id'] ) );
+
+                // Redirect
+                $query = array( 'message' => 'deleted');
+                $redirect_to = add_query_arg( $query, $page_url );
+                wp_redirect( $redirect_to );
+                exit;
+            }
+        }
+
+        // If the delete bulk action is triggered
+        if ( ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'bulk-delete' )
+             || ( isset( $_REQUEST['action2'] ) && $_REQUEST['action2'] == 'bulk-delete' )
+        ) {
+            $delete_ids = esc_sql( $_REQUEST['bulk-delete'] );
+
+            // loop over the array of record ids and delete them
+            foreach ( $delete_ids as $id ) {
+                %%prefix%%delete_%%crud_name_singular%%( $id );
+            }
+
+            // Redirect
+            $query = array( 'message' => 'deleted');
+            $redirect_to = add_query_arg( $query, $page_url );
+            wp_redirect( $redirect_to );
+            exit;
+        }
+    }
+}

@@ -4,7 +4,7 @@
  *
  * @param int $id
  *
- * @return void
+ * @return object
  */
 function %%prefix%%get_%%crud_name_singular%%( $id = 0 ) {
     global $wpdb;
@@ -18,26 +18,46 @@ function %%prefix%%get_%%crud_name_singular%%( $id = 0 ) {
  * @param int $per_page
  * @param int $page_number
  *
- * @return void
+ * @return array
  */
-function %%prefix%%get_%%crud_name%%( $per_page = 20, $page_number = 1 ) {
+function %%prefix%%get_%%crud_name%%( $args = null ) {
     global $wpdb;
 
-    $sql = "SELECT * FROM {$wpdb->prefix}%%crud_name%%";
+    $defaults = [
+        'number'  => 20,
+        'offset'  => 0,
+        'orderby' => 'id',
+        'order'   => 'DESC',
+        'count'   => false,
+    ];
 
-    if ( ! empty( $_REQUEST['s'] ) ) {
-        $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
+    $args = wp_parse_args( $args, $defaults );
+
+    if ( $args['count'] ) {
+        $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_name%%";
+    } else {
+        $sql = "SELECT * FROM {$wpdb->prefix}%%crud_name%%";
     }
 
-    if ( ! empty( $_REQUEST['orderby'] ) ) {
-        $sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
-        $sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+    if ( ! empty( $args['s'] ) ) {
+        $sql .= ' WHERE name LIKE "%' . esc_sql( $args['s'] ) . '%"' ;
     }
 
-    $sql .= " LIMIT $per_page";
-    $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+    if ( ! empty( $args['orderby'] ) ) {
+        $sql .= ' ORDER BY ' . esc_sql( $args['orderby'] );
+        $sql .= ! empty( $args['order'] ) ? ' ' . esc_sql( $args['order'] ) : ' ASC';
+    }
 
-    $result = $wpdb->get_results( $sql, 'ARRAY_A' );
+    if ( $args['number'] != '-1' && ! $args['count'] ) {
+        $sql .= ' LIMIT ' . $args['number'];
+        $sql .= ' OFFSET ' . $args['offset'];
+    }
+
+    if ( $args['count'] ) {
+        $result = $wpdb->get_var( $sql );
+    } else {
+        $result = $wpdb->get_results( $sql);
+    }
 
     return $result;
 }
@@ -57,23 +77,6 @@ function %%prefix%%delete_%%crud_name_singular%%( $id ) {
         [ 'id' => $id ],
         [ '%d' ]
     );
-}
-
-/**
- * Count %%crud_name%%.
- *
- * @return int
- */
-function %%prefix%%count_%%crud_name%%() {
-    global $wpdb;
-
-    $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}%%crud_name%%";
-
-    if ( ! empty( $_REQUEST['s'] ) ) {
-        $sql .= ' WHERE name LIKE "%' . esc_sql( $_REQUEST['s'] ) . '%"' ;
-    }
-
-    return $wpdb->get_var( $sql );
 }
 
 /**

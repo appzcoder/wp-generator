@@ -3,7 +3,7 @@ WP Generator
 
 Inspired by [https://github.com/tareq1988/wp-generators](https://github.com/tareq1988/wp-generators)
 
-## Supported
+## Features
 - WP List Table Generator
 
 ## Installation

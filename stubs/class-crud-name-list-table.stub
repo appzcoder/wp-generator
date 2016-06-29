@@ -1,4 +1,7 @@
 <?php
+if ( ! class_exists( 'WP_List_table' ) ) {
+    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+}
 /**
  * %%crud_name_cap%%_List_Table class
  */
@@ -36,7 +39,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
     public function column_default( $item, $column_name ) {
         switch ( $column_name ) {
             %%column_default%%
-                return $item[ $column_name ];
+                return $item->{$column_name};
             default:
                 return print_r( $item, true );
         }
@@ -51,7 +54,7 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
      */
     function column_cb( $item ) {
         return sprintf(
-            '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['id']
+            '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item->id
         );
     }
 
@@ -65,14 +68,14 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
     function column_name( $item ) {
         $delete_nonce = wp_create_nonce( '%%prefix%%delete_%%crud_name_singular%%' );
 
-        $title = '<strong>' . $item['name'] . '</strong>';
+        $title = '<strong>' . $item->name . '</strong>';
 
         $actions = [
-            'edit'   => sprintf( '<a href="?page=%s&action=%s&id=%d">Edit</a>',  esc_attr( $_REQUEST['page'] ), 'edit', absint( $item['id'] ) ),
-            'delete' => sprintf( '<a href="?page=%s&action=%s&id=%d&_wpnonce=%s">Delete</a>', esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['id'] ), $delete_nonce )
+            'edit'   => sprintf( '<a href="?page=%s&action=%s&id=%d">Edit</a>',  esc_attr( $_REQUEST['page'] ), 'edit', absint( $item->id ) ),
+            'delete' => sprintf( '<a href="?page=%s&action=%s&id=%d&_wpnonce=%s">Delete</a>', esc_attr( $_REQUEST['page'] ), 'delete', absint( $item->id ), $delete_nonce )
         ];
 
-        return sprintf( '<a href="?page=%s&action=%s&id=%d">%s</a>',  esc_attr( $_REQUEST['page'] ), 'view', absint( $item['id'] ), $title ) . $this->row_actions( $actions );
+        return sprintf( '<a href="?page=%s&action=%s&id=%d">%s</a>',  esc_attr( $_REQUEST['page'] ), 'view', absint( $item->id ), $title ) . $this->row_actions( $actions );
     }
 
     /**
@@ -121,110 +124,38 @@ class %%crud_name_cap%%_List_Table extends WP_List_Table {
      * @return void
      */
     public function prepare_items() {
-        $this->_column_headers = $this->get_column_info();
+        $columns  = $this->get_columns();
+        $hidden   = [];
+        $sortable = $this->get_sortable_columns();
 
-        $per_page     = $this->get_items_per_page( '%%crud_name%%_per_page', 5 );
+        $this->_column_headers = array( $columns, $hidden, $sortable );
+
+        // Query parameters
+        $per_page     = 20;
         $current_page = $this->get_pagenum();
-        $total_items  = %%prefix%%count_%%crud_name%%();
+        $orderby      = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'id';
+        $order        = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'DESC';
+        $s            = ( ! empty( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
+        $offset       = ( $current_page - 1 ) * $per_page;
+
+        $args = [
+            'number'  => $per_page,
+            'offset'  => $offset,
+            'orderby' => $orderby,
+            'order'   => $order,
+            'count'   => true,
+            's'       => $s,
+        ];
+
+        $total_items  = %%prefix%%get_%%crud_name%%( $args );
 
         $this->set_pagination_args( [
             'total_items' => $total_items,
             'per_page'    => $per_page
         ] );
 
-        $this->items = %%prefix%%get_%%crud_name%%( $per_page, $current_page );
-    }
+        unset( $args['count'] );
 
-    /**
-     * Handles bulk action and delete.
-     *
-     * @return void
-     */
-    public function process_bulk_action() {
-        $page_url = menu_page_url( '%%plugin_page%%', false );
-
-        // Detect when a bulk action is being triggered...
-        if ( 'delete' === $this->current_action() ) {
-            // In our file that handles the request, verify the nonce.
-            $nonce = esc_attr( $_REQUEST['_wpnonce'] );
-
-            if ( ! wp_verify_nonce( $nonce, '%%prefix%%delete_%%crud_name_singular%%' ) ) {
-                die( 'Go get a life script kiddies' );
-            } else {
-                %%prefix%%delete_%%crud_name_singular%%( absint( $_GET['id'] ) );
-
-                // Redirect
-                $query = array( 'message' => 'deleted');
-                $redirect_to = add_query_arg( $query, $page_url );
-                wp_redirect( $redirect_to );
-                exit;
-            }
-        }
-
-        // If the delete bulk action is triggered
-        if ( ( isset( $_POST['action'] ) && $_POST['action'] == 'bulk-delete' )
-             || ( isset( $_POST['action2'] ) && $_POST['action2'] == 'bulk-delete' )
-        ) {
-            $delete_ids = esc_sql( $_POST['bulk-delete'] );
-
-            // loop over the array of record ids and delete them
-            foreach ( $delete_ids as $id ) {
-                %%prefix%%delete_%%crud_name_singular%%( $id );
-            }
-
-            // Redirect
-            $query = array( 'message' => 'deleted');
-            $redirect_to = add_query_arg( $query, $page_url );
-            wp_redirect( $redirect_to );
-            exit;
-        }
-    }
-
-    /**
-     * Handles form data when submitted.
-     *
-     * @return void
-     */
-    public function process_form_submit() {
-        if ( ! isset( $_POST['submit_%%crud_name_singular%%'] ) ) {
-            return;
-        }
-
-        if ( ! wp_verify_nonce( $_POST['_wpnonce'], '%%prefix%%new_%%crud_name_singular%%' ) ) {
-            die( 'Go get a life script kiddies' );
-        }
-
-        if ( ! current_user_can( 'read' ) ) {
-            wp_die( __( 'Permission Denied!', '%%textdomain%%' ) );
-        }
-
-        $errors     = array();
-        $page_url   = menu_page_url( '%%plugin_page%%', false );
-        $field_id   = isset( $_POST['field_id'] ) ? absint( $_POST['field_id'] ) : 0;
-
-        %%form_submit_fields%%
-
-        $fields = array(
-            %%form_fields%%
-        );
-
-        // New or edit?
-        if ( ! $field_id ) {
-            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
-        } else {
-            $fields['id'] = $field_id;
-
-            $insert_id = %%prefix%%insert_%%crud_name_singular%%( $fields );
-        }
-
-        if ( is_wp_error( $insert_id ) ) {
-            $redirect_to = add_query_arg( array( 'message' => 'error' ), $page_url );
-        } else {
-            $redirect_to = add_query_arg( array( 'message' => 'success' ), $page_url );
-        }
-
-        // Redirect
-        wp_redirect( $redirect_to );
-        exit;
+        $this->items = %%prefix%%get_%%crud_name%%( $args );
     }
 }
